@@ -14,19 +14,19 @@ MonoBehaviour:
   id: lyricsModule
   title: Lyrics
   author: eXish
-  description: 'A template module
+  description: 'Fill in the missing lyrics of a song.
 
 
-    HTML: https://ktane.timwi.de/HTML/Template%20Module.html
+    HTML: https://ktane.timwi.de/HTML/Lyrics.html
 
-    PDF: https://ktane.timwi.de/PDF/Template%20Module.pdf
+    PDF: https://ktane.timwi.de/PDF/Lyrics.pdf
 
 
-    Template (templateModule) v1.0.0
+    Lyrics (lyricsModule) v1.0.0
 
     A module by eXish
 
     Twitch Plays supported'
   version: 1.0.0
   outputFolder: build
-  previewImage: {fileID: 2800000, guid: c0b2ae231f11b024fafeeeb9603aa510, type: 3}
+  previewImage: {fileID: 2800000, guid: 29afbdb3d22b2bf4fa4f97885b4b1044, type: 3}

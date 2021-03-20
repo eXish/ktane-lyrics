@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using KModkit;
 using System.Text.RegularExpressions;
-using System;
 
 public class LyricsScript : MonoBehaviour {
 
@@ -47,6 +45,8 @@ public class LyricsScript : MonoBehaviour {
         }
         ModuleSelectable.OnFocus += delegate () { focused = true; };
         ModuleSelectable.OnDefocus += delegate () { focused = false; };
+        if (Application.isEditor)
+            focused = true;
     }
 
     void Start () {
@@ -321,7 +321,12 @@ public class LyricsScript : MonoBehaviour {
     {
         playing = true;
         audio.PlaySoundAtTransform(musicfiles[indexOfLyrics], transform);
-        yield return new WaitForSeconds(waittimes[indexOfLyrics][0]);
+        float t = 0f;
+        while (t < waittimes[indexOfLyrics][0])
+        {
+            yield return null;
+            t += Time.deltaTime;
+        }
         for (int i = 1; i < lyrics[indexOfLyrics].Length+1; i++)
         {
             if (missingIndexes.Contains(i - 1) && !usedMissingIndexes.Contains(i - 1))
@@ -337,7 +342,12 @@ public class LyricsScript : MonoBehaviour {
             {
                 display.text = lyrics[indexOfLyrics][i - 1];
             }
-            yield return new WaitForSeconds(waittimes[indexOfLyrics][i]);
+            t = 0f;
+            while (t < waittimes[indexOfLyrics][i])
+            {
+                yield return null;
+                t += Time.deltaTime;
+            }
         }
         display.text = "";
         playing = false;
@@ -408,7 +418,7 @@ public class LyricsScript : MonoBehaviour {
                 {
                     if (parameters[1].Length > entered[completed].Length)
                     {
-                        yield return "sendtochaterror The lyric entered '" + parameters[1] + "' is too long!";
+                        yield return "sendtochaterror!f The lyric entered '" + parameters[1] + "' is too long!";
                         yield break;
                     }
                     if (!input)
@@ -431,11 +441,10 @@ public class LyricsScript : MonoBehaviour {
                         yield return "solve";
                     }
                     handleEnter();
-                    yield return new WaitForSeconds(0.01f);
                 }
                 else
                 {
-                    yield return "sendtochaterror The specified lyric '" + parameters[1] + "' is invalid!";
+                    yield return "sendtochaterror!f The specified lyric '" + parameters[1] + "' is invalid!";
                 }
             }
             else if (parameters.Length == 1)
@@ -451,7 +460,6 @@ public class LyricsScript : MonoBehaviour {
         while (playing || striking)
         {
             yield return true;
-            yield return new WaitForSeconds(0.1f);
         }
         int start = completed;
         for (int i = start; i < missingIndexes.Count(); i++)
